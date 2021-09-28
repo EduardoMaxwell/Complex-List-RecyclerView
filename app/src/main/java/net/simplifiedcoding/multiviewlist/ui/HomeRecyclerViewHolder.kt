@@ -2,6 +2,7 @@ package net.simplifiedcoding.multiviewlist.ui
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
 import net.simplifiedcoding.multiviewlist.R
 import net.simplifiedcoding.multiviewlist.databinding.ItemDirectorBinding
 import net.simplifiedcoding.multiviewlist.databinding.ItemMovieBinding
@@ -18,11 +19,13 @@ sealed class HomeRecyclerViewHolder(binding: ViewBinding) :
 
     class MovieViewHolder(private val binding: ItemMovieBinding) : HomeRecyclerViewHolder(binding) {
         fun bind(movie: HomeRecyclerViewItem.Movie) {
-            binding.imageViewMovie.loadImage(movie.thumbnail)
+            binding.imageViewMovie.setImageURI(movie.thumbnail)
+
         }
     }
 
-    class DirectorViewHolder(private val binding: ItemDirectorBinding) : HomeRecyclerViewHolder(binding) {
+    class DirectorViewHolder(private val binding: ItemDirectorBinding) :
+        HomeRecyclerViewHolder(binding) {
 
         fun bind(director: HomeRecyclerViewItem.Director) {
             binding.imageViewDirector.loadImage(director.avatar)
