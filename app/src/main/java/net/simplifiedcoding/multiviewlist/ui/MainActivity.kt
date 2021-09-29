@@ -26,6 +26,15 @@ class MainActivity : AppCompatActivity() {
             adapter = homeRecyclerViewAdapter
         }
 
+        homeRecyclerViewAdapter.itemClickListener = {view, item, position ->
+            val msg = when(item){
+                is HomeRecyclerViewItem.Director -> "Diretor ${item.name} clicado"
+                is HomeRecyclerViewItem.Movie -> "Filme ${item.title} clicado"
+                is HomeRecyclerViewItem.Title -> "Titulo     ${item.title} clicado"
+            }
+            snackbar(msg)
+        }
+
         viewModel.homeListItemsLiveData.observe(this) { result ->
             when (result) {
                 is Resource.Failure -> {

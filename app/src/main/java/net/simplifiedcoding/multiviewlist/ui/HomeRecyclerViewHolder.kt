@@ -1,5 +1,6 @@
 package net.simplifiedcoding.multiviewlist.ui
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
@@ -11,16 +12,24 @@ import net.simplifiedcoding.multiviewlist.databinding.ItemTitleBinding
 sealed class HomeRecyclerViewHolder(binding: ViewBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
+    var itemClickListener: ((view: View, item: HomeRecyclerViewItem, position: Int) -> Unit)? = null
+
     class TitleViewHolder(private val binding: ItemTitleBinding) : HomeRecyclerViewHolder(binding) {
         fun bind(title: HomeRecyclerViewItem.Title) {
             binding.textViewTitle.text = title.title
+
+            binding.textViewAll.setOnClickListener {
+                itemClickListener?.invoke(it, title, adapterPosition)
+            }
         }
     }
 
     class MovieViewHolder(private val binding: ItemMovieBinding) : HomeRecyclerViewHolder(binding) {
         fun bind(movie: HomeRecyclerViewItem.Movie) {
             binding.imageViewMovie.setImageURI(movie.thumbnail)
-
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(it, movie, adapterPosition)
+            }
         }
     }
 
@@ -34,6 +43,9 @@ sealed class HomeRecyclerViewHolder(binding: ViewBinding) :
                 R.string.total_movies,
                 director.movie_count
             )
+            binding.root.setOnClickListener {
+                itemClickListener?.invoke(it, director, adapterPosition)
+            }
         }
     }
 }
